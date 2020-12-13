@@ -18,14 +18,12 @@ var (
 	}
 
 	iBipOpts struct {
-		assetDir             string
 		ignitionPath		 string
 	}
 )
 
 func init() {
 	cmdRoot.AddCommand(cmdIBip)
-	cmdStart.Flags().StringVar(&iBipOpts.assetDir, "asset-dir", "", "Path to the cluster asset directory.")
 	cmdStart.Flags().StringVar(&iBipOpts.ignitionPath, "ignition-path", "/assets/master.ign", "The location of master ignition")
 
 }
@@ -33,7 +31,7 @@ func init() {
 func runCmdIBip(cmd *cobra.Command, args []string) error {
 
 	ib, err := ibip.NewIBipCommand(ibip.ConfigIBip{
-		AssetDir:             iBipOpts.assetDir,
+		AssetDir:             startOpts.assetDir,
 		IgnitionPath:      iBipOpts.ignitionPath,
 	})
 	if err != nil {
@@ -47,7 +45,7 @@ func validateIBipOpts(cmd *cobra.Command, args []string) error {
 	if iBipOpts.ignitionPath == "" {
 		return errors.New("missing required flag: --ignition-path")
 	}
-	if iBipOpts.assetDir == "" {
+	if startOpts.assetDir == "" {
 		return errors.New("missing required flag: --asset-dir")
 	}
 	return nil
