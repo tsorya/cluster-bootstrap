@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/openshift/cluster-bootstrap/pkg/ibip"
 	"github.com/spf13/cobra"
-
 )
 
 var (
@@ -18,21 +17,23 @@ var (
 	}
 
 	iBipOpts struct {
-		ignitionPath		 string
+		assetDir     string
+		ignitionPath string
 	}
 )
 
 func init() {
 	cmdRoot.AddCommand(cmdIBip)
-	cmdStart.Flags().StringVar(&iBipOpts.ignitionPath, "ignition-path", "/assets/master.ign", "The location of master ignition")
+	cmdIBip.Flags().StringVar(&startOpts.assetDir, "asset-folder", "", "Path to the cluster asset folder.")
+	cmdIBip.Flags().StringVar(&iBipOpts.ignitionPath, "ignition-path", "/assets/master.ign", "The location of master ignition")
 
 }
 
 func runCmdIBip(cmd *cobra.Command, args []string) error {
 
 	ib, err := ibip.NewIBipCommand(ibip.ConfigIBip{
-		AssetDir:             startOpts.assetDir,
-		IgnitionPath:      iBipOpts.ignitionPath,
+		AssetDir:     iBipOpts.assetDir,
+		IgnitionPath: iBipOpts.ignitionPath,
 	})
 	if err != nil {
 		return err
@@ -45,7 +46,7 @@ func validateIBipOpts(cmd *cobra.Command, args []string) error {
 	if iBipOpts.ignitionPath == "" {
 		return errors.New("missing required flag: --ignition-path")
 	}
-	if startOpts.assetDir == "" {
+	if iBipOpts.assetDir == "" {
 		return errors.New("missing required flag: --asset-dir")
 	}
 	return nil

@@ -14,20 +14,19 @@ import (
 )
 
 type ConfigIBip struct {
-	AssetDir             string
-	IgnitionPath      	 string
+	AssetDir     string
+	IgnitionPath string
 }
 
 type iBipCommand struct {
-	ignitionPath      string
-	assetDir          string
+	ignitionPath string
+	assetDir     string
 }
-
 
 func NewIBipCommand(config ConfigIBip) (*iBipCommand, error) {
 	return &iBipCommand{
-		assetDir:             config.AssetDir,
-		ignitionPath:      	  config.IgnitionPath,
+		assetDir:     config.AssetDir,
+		ignitionPath: config.IgnitionPath,
 	}, nil
 }
 
